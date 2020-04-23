@@ -58,9 +58,7 @@ LOGIN_URL = '/accounts/login'
 LOGOUT_REDIRECT_URL = '/accounts/login'
 ROOT_URLCONF = 'upstylemini.urls'
 
-# allow upload big file
-DATA_UPLOAD_MAX_MEMORY_SIZE = 1024 * 1024 * 15  # 15M
-FILE_UPLOAD_MAX_MEMORY_SIZE = DATA_UPLOAD_MAX_MEMORY_SIZE
+MAX_UPLOAD_SIZE = 52428800
 
 TEMPLATES = [
     {
