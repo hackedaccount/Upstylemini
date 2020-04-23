@@ -1,4 +1,4 @@
 # upstylemini
 
 
-![Front End ScreenShot](homepage.png)
+![Front End ScreenShot](Screenshot from 2020-04-24 02-42-29.png)
