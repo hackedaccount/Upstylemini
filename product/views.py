@@ -61,25 +61,29 @@ def profile_upload(request):
                 image_link = column[1].split(";")[0]
             except AttributeError:
                 image_link = column[1]
+            category, created = models.Category.objects.get_or_create(category=str(column[91]))
+            print(created, end=' ')
+
+            brand, created = models.Brand.objects.get_or_create(brand=str(column[102]))
+            print(created, end=' ')
 
             # price = float(re.sub("[^0-9^.]", "", column[10]))
             product_link = "https://www.amazon.co.uk/dp/" + str(column[94])
-            asin = models.Products.objects.create(
-                seller_id=str(column[53]),
-                price=str(column[13]),
-                name=str(column[2]),
-                brand=str(column[102]),
-                product_link=str(product_link),
-                datetime=str(column[8]),
-                rank=float(column[3]) if column[3] else None,
-                ratings=float(column[6]) if column[6] else None,
-                reviews=str(column[7]),
-                asin=str(column[94]),
-                image_link=str(image_link),
-                category=str(column[91]),
-            )
-            # print(column[2])
-            asin.save()
+            asin, created = models.Products.objects.update_or_create(asin=str(column[94]), defaults={
+                'seller_id': str(column[53]),
+                'price': str(column[13]),
+                'name': str(column[2]),
+                'brand': brand,
+                'product_link': str(product_link),
+                'datetime': str(column[8]),
+                'rank': int(column[3]) if column[3] else None,
+                'ratings': str(column[6]),
+                'reviews': str(column[7]),
+                'image_link': str(image_link),
+                'category': category,
+            })
+            print('asin:{},category{},{}'.format(asin.asin, asin.category, str(created)))
+
         return render(request, template)
 
     if 'toys' in request.FILES:
@@ -99,24 +103,28 @@ def profile_upload(request):
             except AttributeError:
                 image_link = column[1]
 
+            category, created = models.Category.objects.get_or_create(category=str(column[68]))
+            print(created, end=' ')
+
+            brand, created = models.Brand.objects.get_or_create(brand=str(column[79]))
+            print(created, end=' ')
             # price = float(re.sub("[^0-9^.]", "", column[10]))
             product_link = "https://www.amazon.co.uk/dp/" + str(column[71])
-            asin = models.Products.objects.create(
-                seller_id=str(column[42]),
-                price=str(column[11]),
-                name=str(column[2]),
-                brand=str(column[79]),
-                product_link=str(product_link),
-                datetime=str(column[7]),
-                rank=float(column[3]) if column[3] else None,
-                ratings=float(column[5]) if column[5] else None,
-                reviews=str(column[6]),
-                asin=str(column[71]),
-                image_link=str(image_link),
-                category=str(column[68]),
-            )
-            print(column[2])
-            asin.save()
+            asin, created = models.Products.objects.update_or_create(asin=str(column[71]), defaults={
+                'seller_id': str(column[42]),
+                'price': str(column[11]),
+                'name': str(column[2]),
+                'brand': brand,
+                'product_link': str(product_link),
+                'datetime': str(column[7]),
+                'rank': int(column[3]) if column[3] else None,
+                'ratings': str(column[5]),
+                'reviews': str(column[6]),
+                'image_link': str(image_link),
+                'category': category,
+            })
+            print('asin:{},category{},{}'.format(asin.asin, asin.category, str(created)))
+
         return render(request, template)
 
     if 'grocery' in request.FILES:
@@ -136,24 +144,28 @@ def profile_upload(request):
             except AttributeError:
                 image_link = column[1]
 
+            category, created = models.Category.objects.get_or_create(category=str(column[67]))
+            print(created)
+            brand, created = models.Brand.objects.get_or_create(brand=str(column[78]))
+            print(created, end=' ')
             # price = float(re.sub("[^0-9^.]", "", column[10]))
             product_link = "https://www.amazon.co.uk/dp/" + str(column[70])
-            asin = models.Products.objects.create(
-                seller_id=str(column[41]),
-                price=str(column[10]) if str(column[10]) else str(column[7]),
-                name=str(column[2]),
-                brand=str(column[78]),
-                product_link=str(product_link),
-                datetime=str(column[6]),
-                rank=float(column[3]) if column[3] else None,
-                ratings=float(column[4]) if column[4] else None,
-                reviews=str(column[5]),
-                asin=str(column[70]),
-                image_link=str(image_link),
-                category=str(column[67]),
-            )
-            print(column[2])
-            asin.save()
+            asin, created = models.Products.objects.update_or_create(asin=str(column[70]), defaults={
+                'seller_id': str(column[41]),
+                'price': str(column[10]) if str(column[10]) else str(column[7]),
+                'name': str(column[2]),
+                'brand': brand,
+                'product_link': str(product_link),
+                'datetime': str(column[6]),
+                'rank': int(column[3]) if column[3] else None,
+                'ratings': str(column[4]),
+                'reviews': str(column[5]),
+                'image_link': str(image_link),
+                'category': category,
+            })
+            print('asin:{},category{},{}'.format(asin.asin, asin.category, str(created)))
+
+            # asin.save()
         return render(request, template)
 
 
@@ -169,11 +181,17 @@ def product_list(request):
         rank = request.GET.get('rank', '')
         category_id = request.GET.get('category', '')
 
-        category = models.Category.objects.get(pk=category_id).category if category_id else ''
-        filtered_products = models.Products.objects.filter(name__icontains=name, brand__icontains=brand,
-                                                           rank__lte=int(rank) if rank else 100000,
-                                                           category__icontains=category).order_by(
-            'rank') if name or brand or rank or category else models.Products.objects.all().order_by('rank')[:99]
+        filtered_products = models.Products.objects.filter(name__icontains=name,brand__brand__icontains=brand,
+                                                           rank__lte=int(rank) if rank else 100000, ).order_by(
+            'rank') if name or rank or category_id or brand else models.Products.objects.all().order_by('rank')[:99]
+
+        if category_id:
+            category = models.Category.objects.get(pk=category_id)
+            filtered_products = filtered_products.filter(category=category)
+        #
+        # if brand_id:
+        #     brand = models.Brand.objects.get(brand__icontains=brand_id)
+        #     filtered_products = filtered_products.filter(brand=brand)
 
         page = request.GET.get('page', 1)
 
