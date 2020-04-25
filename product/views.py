@@ -51,121 +51,55 @@ def profile_upload(request):
         if not csv_file.name.endswith('.csv'):
             messages.error(request, 'THIS IS NOT A CSV FILE')
         data_set = csv_file.read().decode('UTF-8')
+
         # setup a stream which is when we loop through each line we are able to handle a data in a stream
 
         io_string = io.StringIO(data_set)
-        next(io_string)
+        # next(io_string)
+        str_headers = next(io_string)
+        # print(headers)
+        headers = str_headers.replace(', ', ' ').replace('"', '').replace('\ufeff', '').split(',')
+        image_column = headers.index('Image')
+        title_column = headers.index('Title')
+        rank_column = headers.index('Sales Rank: Current')
+        ratings_column = headers.index('Reviews: Rating')
+        reviews_column = headers.index('Reviews: Review Count')
+        last_price_change_column = headers.index('Last Price Change')
+        price_column = headers.index('New: Current')
+        seller_column = headers.index('Buy Box Seller')
+        category_column = headers.index('Categories: Root')
+        asin_column = headers.index('ASIN')
+        brand_column = headers.index('Brand')
+
         for column in csv.reader(io_string, delimiter=','):
 
             try:
-                image_link = column[1].split(";")[0]
+                image_link = column[image_column].split(";")[0]
             except AttributeError:
-                image_link = column[1]
-            category, created = models.Category.objects.get_or_create(category=str(column[91]))
+                image_link = column[image_column]
+            category, created = models.Category.objects.get_or_create(category=str(column[category_column]))
             print(created, end=' ')
 
-            brand, created = models.Brand.objects.get_or_create(brand=str(column[102]))
+            brand, created = models.Brand.objects.get_or_create(brand=str(column[brand_column]))
             print(created, end=' ')
 
             # price = float(re.sub("[^0-9^.]", "", column[10]))
-            product_link = "https://www.amazon.co.uk/dp/" + str(column[94])
-            asin, created = models.Products.objects.update_or_create(asin=str(column[94]), defaults={
-                'seller_id': str(column[53]),
-                'price': str(column[13]),
-                'name': str(column[2]),
+            product_link = "https://www.amazon.co.uk/dp/" + str(column[asin_column])
+            asin, created = models.Products.objects.update_or_create(asin=str(column[asin_column]), defaults={
+                'seller_id': str(column[seller_column]),
+                'price': str(column[price_column]),
+                'name': str(column[title_column]),
                 'brand': brand,
                 'product_link': str(product_link),
-                'datetime': str(column[8]),
-                'rank': int(column[3]) if column[3] else None,
-                'ratings': str(column[6]),
-                'reviews': str(column[7]),
+                'datetime': str(column[last_price_change_column]),
+                'rank': int(column[rank_column]) if column[rank_column] else None,
+                'ratings': str(column[ratings_column]),
+                'reviews': str(column[reviews_column]),
                 'image_link': str(image_link),
                 'category': category,
             })
             print('asin:{},category{},{}'.format(asin.asin, asin.category, str(created)))
 
-        return render(request, template)
-
-    if 'toys' in request.FILES:
-        # let's check if it is a csv file
-        csv_file = request.FILES['toys']
-        if not csv_file.name.endswith('.csv'):
-            messages.error(request, 'THIS IS NOT A CSV FILE')
-        data_set = csv_file.read().decode('UTF-8')
-        # setup a stream which is when we loop through each line we are able to handle a data in a stream
-
-        io_string = io.StringIO(data_set)
-        next(io_string)
-        for column in csv.reader(io_string, delimiter=','):
-
-            try:
-                image_link = column[1].split(";")[0]
-            except AttributeError:
-                image_link = column[1]
-
-            category, created = models.Category.objects.get_or_create(category=str(column[68]))
-            print(created, end=' ')
-
-            brand, created = models.Brand.objects.get_or_create(brand=str(column[79]))
-            print(created, end=' ')
-            # price = float(re.sub("[^0-9^.]", "", column[10]))
-            product_link = "https://www.amazon.co.uk/dp/" + str(column[71])
-            asin, created = models.Products.objects.update_or_create(asin=str(column[71]), defaults={
-                'seller_id': str(column[42]),
-                'price': str(column[11]),
-                'name': str(column[2]),
-                'brand': brand,
-                'product_link': str(product_link),
-                'datetime': str(column[7]),
-                'rank': int(column[3]) if column[3] else None,
-                'ratings': str(column[5]),
-                'reviews': str(column[6]),
-                'image_link': str(image_link),
-                'category': category,
-            })
-            print('asin:{},category{},{}'.format(asin.asin, asin.category, str(created)))
-
-        return render(request, template)
-
-    if 'grocery' in request.FILES:
-        # let's check if it is a csv file
-        csv_file = request.FILES['grocery']
-        if not csv_file.name.endswith('.csv'):
-            messages.error(request, 'THIS IS NOT A CSV FILE')
-        data_set = csv_file.read().decode('UTF-8')
-        # setup a stream which is when we loop through each line we are able to handle a data in a stream
-
-        io_string = io.StringIO(data_set)
-        next(io_string)
-        for column in csv.reader(io_string, delimiter=','):
-
-            try:
-                image_link = column[1].split(";")[0]
-            except AttributeError:
-                image_link = column[1]
-
-            category, created = models.Category.objects.get_or_create(category=str(column[67]))
-            print(created)
-            brand, created = models.Brand.objects.get_or_create(brand=str(column[78]))
-            print(created, end=' ')
-            # price = float(re.sub("[^0-9^.]", "", column[10]))
-            product_link = "https://www.amazon.co.uk/dp/" + str(column[70])
-            asin, created = models.Products.objects.update_or_create(asin=str(column[70]), defaults={
-                'seller_id': str(column[41]),
-                'price': str(column[10]) if str(column[10]) else str(column[7]),
-                'name': str(column[2]),
-                'brand': brand,
-                'product_link': str(product_link),
-                'datetime': str(column[6]),
-                'rank': int(column[3]) if column[3] else None,
-                'ratings': str(column[4]),
-                'reviews': str(column[5]),
-                'image_link': str(image_link),
-                'category': category,
-            })
-            print('asin:{},category{},{}'.format(asin.asin, asin.category, str(created)))
-
-            # asin.save()
         return render(request, template)
 
 
@@ -181,7 +115,7 @@ def product_list(request):
         rank = request.GET.get('rank', '')
         category_id = request.GET.get('category', '')
 
-        filtered_products = models.Products.objects.filter(name__icontains=name,brand__brand__icontains=brand,
+        filtered_products = models.Products.objects.filter(name__icontains=name, brand__brand__icontains=brand,
                                                            rank__lte=int(rank) if rank else 100000, ).order_by(
             'rank') if name or rank or category_id or brand else models.Products.objects.all().order_by('rank')[:99]
 
