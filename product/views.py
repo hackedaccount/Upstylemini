@@ -35,15 +35,15 @@ class ProductList(LoginRequiredMixin, generic.ListView):
 def profile_upload(request):
     # declaring template
     template = "csv_upload.html"
-    data = models.Products.objects.last()
+    # data = models.Products.objects.last()
     # prompt is a context variable that can have different values      depending on their context
-    prompt = {
-        'order': 'Order of the CSV should be name, email, address,    phone, profile',
-        'profiles': data
-    }
+    # prompt = {
+    #     'order': 'Order of the CSV should be name, email, address,    phone, profile',
+    #     'profiles': data
+    # }
     # GET request returns the value of the data with the specified key.
     if request.method == "GET":
-        return render(request, template, prompt)
+        return render(request, template)
 
     if 'beauty' in request.FILES:
         # let's check if it is a csv file
