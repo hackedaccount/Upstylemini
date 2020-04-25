@@ -78,10 +78,10 @@ def profile_upload(request):
             except AttributeError:
                 image_link = column[image_column]
             category, created = models.Category.objects.get_or_create(category=str(column[category_column]))
-            print(created, end=' ')
+            # print(created, end=' ')
 
             brand, created = models.Brand.objects.get_or_create(brand=str(column[brand_column]))
-            print(created, end=' ')
+            # print(created, end=' ')
 
             # price = float(re.sub("[^0-9^.]", "", column[10]))
             product_link = "https://www.amazon.co.uk/dp/" + str(column[asin_column])
@@ -98,7 +98,7 @@ def profile_upload(request):
                 'image_link': str(image_link),
                 'category': category,
             })
-            print('asin:{},category{},{}'.format(asin.asin, asin.category, str(created)))
+            # print('asin:{},category{},{}'.format(asin.asin, asin.category, str(created)))
 
         return render(request, template)
 
