@@ -4,11 +4,11 @@
 {% block search %}
 
 
-    <a href="{% url 'product:search' %}" type="button" class="btn btn-primary">
+    <a href="{% url 'tesco:search' %}" type="button" class="btn btn-primary">
         <span class="glyphicon glyphicon-search"></span> Search
     </a>
-    <a href="{% url 'product:upload_csv' %}" type="button" class="btn btn-primary">
-        <span class="glyphicon glyphicon-shopping-cart"></span> Upload Amazon
+    <a href="{% url 'tesco:upload_csv' %}" type="button" class="btn btn-primary">
+        <span class="glyphicon glyphicon-shopping-cart"></span> Upload Tesco
     </a>
 {% endblock %}
 
@@ -18,37 +18,25 @@
             <h2 class="title text-center">Features Items</h2>
 
 
-            {% for product in products %}
+            {% for product in tesco_products %}
 
                 <div class="col-sm-4" style="min-height: 650px; max-height: 650px">
                     <div class="product-image-wrapper">
                         <div class="single-products">
                             <div class="productinfo text-center">
                                 <img style="object-fit: cover; width: 100%; max-height: 300px; min-height: 300px;"
-                                     src={{ product.image_link }} alt=""/>
+                                     src={{ product.image_link }} alt={{ product.product_name }}/>
                                 <h2><b>Price: </b>{{ product.price }}</h2>
-                                <p><b>Asin: </b>{{ product.asin }}</p>
+                                <p><b>Product ID: </b>{{ product.product_id }}</p>
                                 <p><b>Name: </b>{{ product.name }}</p>
-                                <p><b>Brand: </b>{{ product.brand }}</p>
+                                <p><b>Product Link: </b>{{ product.product_link }}</p>
+
 
                                 <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
                                     to
                                     cart</a>
                             </div>
                             <div class="product-overlay">
-                                <div class="overlay-content">
-                                    <p><b>Seller id: </b>{{ product.seller_id }}</p>
-                                    <p><b>Date: </b>{{ product.datetime }}</p>
-                                    <p><b>Rank: </b>{{ product.rank }}</p>
-                                    <p><b>Reviews: </b>{{ product.reviews }}</p>
-                                    <p><b>Ratings: </b>{{ product.ratings }}</p>
-                                    <p><b>Category: </b>{{ product.category }}</p>
-                                    <p><a href="{{ product.product_link }}">product
-                                        link</a></p>
-                                    <p></p>
-                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
-                                        to cart</a>
-                                </div>
                             </div>
                         </div>
                         <div class="choose">

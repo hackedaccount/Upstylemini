@@ -37,8 +37,8 @@
                 <div class="col-sm-6">
                     <div class="contactinfo">
                         <ul class="nav nav-pills">
-                            <li><a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
-                            <li><a href="#"><i class="fa fa-envelope"></i> info@domain.com</a></li>
+                            <li><a href="#"><i class="fa fa-phone"></i> +2 9999999999</a></li>
+                            <li><a href="#"><i class="fa fa-envelope"></i> admin@upstyle.com</a></li>
                         </ul>
                     </div>
                 </div>
@@ -65,8 +65,11 @@
                         <a href="{% static 'index.html' %}"><img src="{% static 'images/home/logo.png' %}" alt=""/></a>
                     </div>
                     <div class="logo pull-right">
-                        <a href="{% url 'product:upload_csv' %}" type="button" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-log-out"></span> Upload CSV
+                        <a href="{% url 'product:product_list' %}" type="button" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-shopping-cart"></span> Amazon
+                        </a>
+                        <a href="{% url 'tesco:product_list' %}" type="button" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-shopping-cart"></span> Tesco
                         </a>
                         <a href="{% url 'logout' %}" type="button" class="btn btn-primary">
                             <span class="glyphicon glyphicon-log-out"></span> Logout

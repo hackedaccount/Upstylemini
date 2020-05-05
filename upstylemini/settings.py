@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'qurl_templatetag',
     'widget_tweaks',
     'product',
+    'tesco',
 ]
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
