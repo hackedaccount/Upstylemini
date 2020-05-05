@@ -6,6 +6,7 @@
 {% block brands %}
 {% endblock %}
 {% block products %}
+    <div class="container text-center">
     <div class="logo-404">
         <a href="{% url 'product:product_list' %}"><img src="{% static 'images/home/logo.png' %}" alt=""/></a>
 
@@ -15,6 +16,7 @@
         <h1><b>OPPS!</b> We Couldn’t Find this Page</h1>
         <p>Uh... So it looks like you brock something. The page you are looking for has Vanished.</p>
         <h2><a href="{% url 'product:product_list' %}">Bring me back Home</a></h2>
+    </div>
     </div>
 {% endblock %}
 {% block footer %}
