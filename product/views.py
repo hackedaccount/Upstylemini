@@ -13,6 +13,15 @@ from .filters import ProductFilter
 
 
 # Create your views here.
+def error404(request, exception):
+    data = {'status': exception}
+    return render(request, '404.html', data)
+
+
+def error500(request):
+    data = {}
+    return render(request, '404.html', data)
+
 
 class ProductList(LoginRequiredMixin, generic.ListView):
     template_name = 'products.html'

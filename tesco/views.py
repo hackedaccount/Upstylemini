@@ -13,7 +13,7 @@ from tesco.filters import TescoProductFilter
 class TescoProductList(LoginRequiredMixin, generic.ListView):
     template_name = 'tesco/tesco_products.html'
     context_object_name = 'tesco_products'
-    paginate_by = 1000
+    paginate_by = 30
 
     def get_queryset(self):
         result = models.TescoProducts.objects.all()
@@ -56,13 +56,12 @@ def tesco_product_upload(request):
             image_id = int(column[column_product_id]) % 1000
             image_link = 'https://img.tesco.com/Groceries/pi/{}/{}/IDShot_225x225.jpg'.format(image_id,
                                                                                               column[column_product_id])
-
+            product_link = 'https://www.tesco.com{}'.format(column[column_product_link])
             tesco, created = models.TescoProducts.objects.update_or_create(product_id=int(column[column_product_id]),
                                                                            defaults={
                                                                                'name': column[column_name],
                                                                                'price': column[column_price],
-                                                                               'product_link': column[
-                                                                                   column_product_link],
+                                                                               'product_link': product_link,
                                                                                'image_link': image_link,
                                                                            })
             print('name:{},price{},{}'.format(tesco.name, tesco.price, tesco.image_link))
@@ -79,11 +78,11 @@ def tesco_product_list(request):
         context = {'filter': f}
         name = request.GET.get('name', '')
 
-        filtered_products = models.TescoProducts.objects.filter(name__icontains=name)
+        filtered_products = models.TescoProducts.objects.filter(name__icontains=name) if name else models.TescoProducts.objects.all()[:30]
 
         page = request.GET.get('page', 1)
 
-        paginator = Paginator(filtered_products, 100)
+        paginator = Paginator(filtered_products, 30)
 
         try:
             filtered_products = paginator.page(page)
@@ -97,4 +96,4 @@ def tesco_product_list(request):
     else:
         f = TescoProductFilter()
         context = {'filter': f}
-    return render(request, 'filter.html', context)
+    return render(request, 'tesco/tesco_filter.html', context)

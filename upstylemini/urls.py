@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth.views import LogoutView
+from product import views as myapp_views
+from django.conf.urls import handler404, handler500
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,3 +29,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), {'next_page': '/accounts/login/'}, name='logout'),
 
 ]
+handler404 = myapp_views.error404
+handler500 = myapp_views.error500

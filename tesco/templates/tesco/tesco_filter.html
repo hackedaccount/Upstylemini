@@ -7,7 +7,7 @@
 {% block search %}
 
 
-    <a href="{% url 'product:product_list' %}" type="button" class="btn btn-primary">
+    <a href="{% url 'tesco:product_list' %}" type="button" class="btn btn-primary">
         <span class="glyphicon glyphicon-home"></span> Product List
     </a>
 {% endblock %}
@@ -26,23 +26,17 @@
                     {% render_field filter.form.name class="form-control" %}
                 </div>
 
-                <div >
+                <div>
                     <button type="submit" class="btn btn-primary col-sm-4 col-md-3" style="margin-left: 50px">
                         <span class="glyphicon glyphicon-search"></span> Search
                     </button>
                 </div>
 
             </div>
-
-
         </form>
         {% if page_obj %}
             <hr>
             {% for product in page_obj %}
-                {% if forloop.counter|divisibleby:3 %}
-                    {#                <h1>{{ forloop.counter }}</h1>#}
-
-                {% endif %}
 
                 <div class="col-sm-4" style="min-height: 650px; max-height: 650px; max-width: 400px">
                     <div class="product-image-wrapper">
@@ -51,9 +45,8 @@
                                 <img style="object-fit: cover; width: 100%; max-height: 300px; min-height: 300px;"
                                      src={{ product.image_link }} alt=""/>
                                 <h2><b>Price: </b>{{ product.price }}</h2>
-                                <p><b>Asin: </b>{{ product.asin }}</p>
+                                <p><b>ID: </b>{{ product.product_id }}</p>
                                 <p><b>Name: </b>{{ product.name }}</p>
-                                <p><b>Brand: </b>{{ product.brand }}</p>
 
                                 <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
                                     to
@@ -61,13 +54,6 @@
                             </div>
                             <div class="product-overlay">
                                 <div class="overlay-content">
-                                    <p><b>Seller id: </b>{{ product.seller_id }}</p>
-                                    <p><b>Date: </b>{{ product.datetime }}</p>
-                                    <p><b>Rank: </b>{{ product.rank }}</p>
-                                    <p><b>Reviews: </b>{{ product.reviews }}</p>
-                                    <p><b>Ratings: </b>{{ product.ratings }}</p>
-                                    <p><b>Category: </b>{{ product.category }}</p>
-
                                     <p><a href="{{ product.product_link }}">product
                                         link</a></p>
                                     <p></p>
@@ -85,27 +71,6 @@
                     </div>
                 </div>
 
-
-
-
-
-                {#            {% if is_paginated %}#}
-                {#                <div class="logo pull-right">#}
-                {#                    <nav aria-label="Page navigation conatiner"></nav>#}
-                {#                    <ul class="pagination justify-content-center ">#}
-                {#                        {% if filter.has_previous %}#}
-                {#                            <li><a href="?page={{ filter.previous_page_number }}" class="page-link">&laquo; PREV </a>#}
-                {#                            </li>#}
-                {#                        {% endif %}#}
-                {#                        {% if filter.has_next %}#}
-                {#                            <li><a href="?page={{ filter.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>#}
-                {##}
-                {#                        {% endif %}#}
-                {#                    </ul>#}
-                {#                    </nav>#}
-                {#                </div>#}
-                {#                </div>#}
-                {#            {% endif %}#}
             {% endfor %}
         {% endif %}
 
@@ -128,9 +93,7 @@
             <a class="btn btn-primary"> {{ page_obj.number }}</a>
 
             {% if page_obj.has_next %}
-                <a href="
-
-                        {% qurl request.get_full_path page=None %}{% if request.get_full_path == '/search' %}?{% else %}&{% endif %}page={{ page_obj.next_page_number }}"
+                <a href="{% qurl request.get_full_path page=None %}{% if request.get_full_path == '/search' %}?{% else %}&{% endif %}page={{ page_obj.next_page_number }}"
                    type="button"
                    class="btn btn-primary">next</a>
                 <a href="{% qurl request.get_full_path page=None %}&page={{ page_obj.paginator.num_pages }}"

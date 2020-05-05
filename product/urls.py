@@ -8,5 +8,6 @@ urlpatterns = [
     path('', views.ProductList.as_view(), name='product_list'),
     path('upload_csv', views.profile_upload, name="upload_csv"),
     path('search', views.product_list, name='search'),
+    # path('error', views.handler404, name='error')
 
 ]
