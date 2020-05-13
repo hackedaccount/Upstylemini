@@ -68,27 +68,27 @@
                         <p><b>Asin: </b>{{ product.asin }}</p>
                         <p><b>Name: </b>{{ product.name }}</p>
                         <p><b>Brand: </b>{{ product.brand }}</p>
-
+                        <p><a href="{{ product.product_link }}">product link</a></p>
                         <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
                             to
                             cart</a>
                     </div>
-{#                    <div class="product-overlay">#}
-{#                        <div class="overlay-content">#}
-{#                            <p><b>Seller id: </b>{{ product.seller_id }}</p>#}
-{#                            <p><b>Date: </b>{{ product.datetime }}</p>#}
-{#                            <p><b>Rank: </b>{{ product.rank }}</p>#}
-{#                            <p><b>Reviews: </b>{{ product.reviews }}</p>#}
-{#                            <p><b>Ratings: </b>{{ product.ratings }}</p>#}
-{#                            <p><b>Category: </b>{{ product.category }}</p>#}
-{##}
-{#                            <p><a href="{{ product.product_link }}">product#}
-{#                                link</a></p>#}
-{#                            <p></p>#}
-{#                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add#}
-{#                                to cart</a>#}
-{#                        </div>#}
-{#                    </div>#}
+                    {#                    <div class="product-overlay">#}
+                    {#                        <div class="overlay-content">#}
+                    {#                            <p><b>Seller id: </b>{{ product.seller_id }}</p>#}
+                    {#                            <p><b>Date: </b>{{ product.datetime }}</p>#}
+                    {#                            <p><b>Rank: </b>{{ product.rank }}</p>#}
+                    {#                            <p><b>Reviews: </b>{{ product.reviews }}</p>#}
+                    {#                            <p><b>Ratings: </b>{{ product.ratings }}</p>#}
+                    {#                            <p><b>Category: </b>{{ product.category }}</p>#}
+                    {##}
+                    {#                            <p><a href="{{ product.product_link }}">product#}
+                    {#                                link</a></p>#}
+                    {#                            <p></p>#}
+                    {#                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add#}
+                    {#                                to cart</a>#}
+                    {#                        </div>#}
+                    {#                    </div>#}
                 </div>
                 <div class="choose">
                     <ul class="nav nav-pills nav-justified">
@@ -121,7 +121,8 @@
                 <a class="btn btn-primary"> {{ filtered_products.number }}</a>
 
                 {% if filtered_products.has_next %}
-                    <a href="{% qurl request.get_full_path page=None %}{% if request.get_full_path == '/search' %}?{% else %}&{% endif %}page={{ filtered_products.next_page_number }}"
+                    <a href="
+                            {% qurl request.get_full_path page=None %}{% if request.get_full_path == '/search' %}?{% else %}&{% endif %}page={{ filtered_products.next_page_number }}"
                        type="button"
                        class="btn btn-primary">next</a>
                     <a href="{% qurl request.get_full_path page=None %}&page={{ filtered_products.paginator.num_pages }}"
