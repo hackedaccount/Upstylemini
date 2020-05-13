@@ -25,6 +25,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('product.urls', namespace='product')),
     path('tesco/', include('tesco.urls', namespace='tesco')),
+    path('comparison/', include('comparison.urls', namespace='comparison')),
 
     path('logout/', LogoutView.as_view(), {'next_page': '/accounts/login/'}, name='logout'),
 

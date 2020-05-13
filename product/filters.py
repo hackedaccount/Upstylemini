@@ -10,7 +10,7 @@ class ProductFilter(django_filters.FilterSet):
     category = django_filters.ModelChoiceFilter(
         queryset=Category.objects.all(),
     )
-    price= django_filters.NumericRangeFilter()
+    price = django_filters.NumericRangeFilter()
 
     class Meta:
         model = Products

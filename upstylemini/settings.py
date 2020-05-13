@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'product',
     'tesco',
+    'comparison',
 ]
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
