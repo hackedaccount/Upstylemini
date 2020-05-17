@@ -37,7 +37,7 @@ def tesco_product_upload(request):
         # let's check if it is a csv file
         csv_file = request.FILES['tesco']
         if not csv_file.name.endswith('.csv'):
-            messages.error(request, 'THIS IS NOT A CSV FILE')
+            return render(request, template_name, {'message': 'Not a CSV FILE'})
         data_set = csv_file.read().decode('UTF-8')
 
         # setup a stream which is when we loop through each line we are able to handle a data in a stream

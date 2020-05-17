@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from product import models
 import csv
 import io
@@ -57,11 +57,10 @@ def profile_upload(request):
     if 'beauty' in request.FILES:
         # let's check if it is a csv file
         csv_file = request.FILES['beauty']
-        if not csv_file.name.endswith('.csv'):
-            messages.error(request, 'THIS IS NOT A CSV FILE')
-        data_set = csv_file.read().decode('UTF-8')
 
-        # setup a stream which is when we loop through each line we are able to handle a data in a stream
+        if not csv_file.name.endswith('.csv'):
+            return render(request, template, {'message': 'Not a CSV FILE'})
+        data_set = csv_file.read().decode('UTF-8')
 
         io_string = io.StringIO(data_set)
         # next(io_string)

@@ -1,0 +1,243 @@
+{% load static %}
+{% load qurl %}
+{% load widget_tweaks %}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Home | E-Shopper</title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/prettyPhoto.css' %}" rel="stylesheet">
+    <link href="{% static 'css/price-range.css' %}" rel="stylesheet">
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+
+    <script src="{% static 'js/html5shiv.js' %}"></script>
+    {{ form.media.css }}
+
+<body>
+<header id="header"><!--header-->
+    <div class="header_top"><!--header_top-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="contactinfo">
+                        <ul class="nav nav-pills">
+                            <li><a href="#"><i class="fa fa-phone"></i> +2 9999999999</a></li>
+                            <li><a href="#"><i class="fa fa-envelope"></i> admin@upstyle.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="social-icons pull-right">
+                        <ul class="nav navbar-nav">
+                            {#                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>#}
+                            {#                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>#}
+                            {#                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>#}
+                            {#                            <li><a href="#"><i class="fa fa-dribbble"></i></a></li>#}
+                            {#                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>#}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/header_top-->
+
+    <div class="header-middle"><!--header-middle-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="logo pull-left">
+                        <a href="{% static 'index.html' %}"><img src="{% static 'images/home/logo.png' %}" alt=""/></a>
+                    </div>
+                    <div class="logo pull-right">
+                        <a href="{% url 'product:product_list' %}" type="button" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-shopping-cart"></span> Amazon
+                        </a>
+                        <a href="{% url 'tesco:product_list' %}" type="button" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-shopping-cart"></span> Tesco
+                        </a>
+                        <a href="{% url 'comparison:compare' %}" type="button" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-search"></span> Compare
+                        </a>
+                        <a href="{% url 'salevelocity:history_data' %}" type="button" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-upload"></span> Sale Velocity
+                        </a>
+                        <a href="{% url 'logout' %}" type="button" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-log-out"></span> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/header-middle-->
+
+</header><!--/header-->
+{% block section %}
+    <section>
+        <div class="container">
+            <div class="row">
+                {% block products %}
+                    <div class="row row-inline-block small-spacing">
+                        <div class="col-xs-12">
+                            <div class="box">
+                                <div class="panel">
+                                    <form action="" method="GET">
+                                        <table class="table">
+                                            <tr>
+                                                {% csrf_token %}
+                                                <div class="row" style="margin-left: 50px">
+                                                    <div class="form-group col-sm-4 col-md-3">
+                                                        {{ form.name.label_tag }}
+                                                        {% render_field form.start_date class="form-control" %}
+                                                    </div>
+                                                    <div class="form-group col-sm-4 col-md-3">
+                                                        {{ form.name.label_tag }}
+                                                        {% render_field form.end_date class="form-control" %}
+                                                    </div>
+                                                    <div>
+                                                        <h5>Download : </h5>{{ form.download }}
+                                                    </div>
+                                                </div>
+
+                                                <button type="submit"
+                                                        class="btn btn-primary col-sm-4 col-md-3"
+                                                        style="margin-left: 50px">
+                                                    <span class="glyphicon glyphicon-search"></span> Search
+                                                </button>
+
+                                                <a style="margin-left: 100px"
+                                                   href="{% url 'salevelocity:sale_velocity' %}" type="button"
+                                                   class="btn btn-primary">
+                                                    <span class="glyphicon glyphicon-upload"></span> Upload CSV
+                                                </a>
+
+                                            </tr>
+
+                                        </table>
+                                    </form>
+                                    <div class="box-body">
+                                        <ul class="nav nav-tabs">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>datetime</th>
+                                                        <th>asin</th>
+                                                        <th>title</th>
+                                                        <th>sessions</th>
+                                                        <th>session_percentage</th>
+                                                        <th>page_views</th>
+                                                        <th>page_views_percentage</th>
+                                                        <th>buy_box_percentage</th>
+                                                        <th>units_ordered</th>
+                                                        <th>units_ordered_b2b</th>
+                                                        <th>unit_session_percentage</th>
+                                                        <th>unit_session_percentage_b2b</th>
+                                                        <th>ordered_product_sales</th>
+                                                        <th>ordered_product_sales_b2b</th>
+                                                        <th>total_order_items</th>
+                                                        <th>total_order_items_b2b</th>
+                                                        <th>average_selling_price</th>
+                                                        <th>sales_velocity</th>
+                                                        <th>days</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for item in salevelocity %}
+                                                        <tr>
+                                                            <td>{{ item.datetime|date:'d/m/Y H:i' }}</td>
+                                                            <td>{{ item.asin }}</td>
+                                                            <td>{{ item.title }}</td>
+                                                            <td>{{ item.sessions }}</td>
+                                                            <td>{{ item.session_percentage }}</td>
+                                                            <td>{{ item.page_views }}</td>
+                                                            <td>{{ item.page_views_percentage }}</td>
+                                                            <td>{{ item.buy_box_percentage }}</td>
+                                                            <td>{{ item.units_ordered }}</td>
+                                                            <td>{{ item.units_ordered_b2b }}</td>
+                                                            <td>{{ item.unit_session_percentage }}</td>
+                                                            <td>{{ item.unit_session_percentage_b2b }}</td>
+                                                            <td>{{ item.ordered_product_sales }}</td>
+                                                            <td>{{ item.ordered_product_sales_b2b }}</td>
+                                                            <td>{{ item.total_order_items }}</td>
+                                                            <td>{{ item.total_order_items_b2b }}</td>
+                                                            <td>{{ item.average_selling_price }}</td>
+                                                            <td>{{ item.sales_velocity }}</td>
+                                                            <td>{{ item.days }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <nav aria-label="Page navigation example">
+                                                <ul class="pagination">
+                                                    {% if salevelocity.has_previous %}
+                                                        <li class="page-item"><a class="page-link"
+                                                                                 href="{% qurl request.get_full_path page=None %}&page=1">&laquo;
+                                                            first</a></li>
+                                                        <li class="page-item"><a class="page-link" aria-label="Previous"
+                                                                                 href="{% qurl request.get_full_path page=None %}&page={{ salevelocity.previous_page_number }}">previous</a>
+                                                        </li>
+                                                    {% endif %}
+
+
+                                                    <li class="page-item active"><a class="page-link"
+                                                                                    aria-label="Previous"
+                                                                                    href="#">{{ salevelocity.number }}</a>
+                                                    </li>
+
+
+
+                                                    {% if salevelocity.has_next %}
+                                                        <li class="page-item"><a class="page-link" aria-label="Next"
+                                                                                 href="{% qurl request.get_full_path page=None %}&page={{ salevelocity.next_page_number }}">next</a>
+                                                        </li>
+                                                        <li class="page-item"><a class="page-link"
+                                                                                 href="{% qurl request.get_full_path page=None %}&page={{ salevelocity.paginator.num_pages }}">last
+                                                            &raquo;</a></li>
+                                                    {% endif %}
+                                                </ul>
+                                            </nav>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endblock %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block footer %}
+    <footer id="footer"><!--Footer-->
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <p class="pull-left">Copyright © 2020 UPSTYLE BUSINESS. All rights reserved.</p>
+                    <p class="pull-right">Designed by <span><a target="_blank">UPSTYLE</a></span></p>
+                </div>
+            </div>
+        </div>
+
+    </footer><!--/Footer-->
+{% endblock %}
+
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/jquery.scrollUp.min.js' %}"></script>
+<script src="{% static 'js/price-range.js' %}"></script>
+<script src="{% static 'js/jquery.prettyPhoto.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+{{ form.media }}
+</body>
+</html>
+
+

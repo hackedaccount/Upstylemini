@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'six',
     'qurl_templatetag',
     'widget_tweaks',
+    'salevelocity',
     'product',
     'tesco',
     'comparison',
